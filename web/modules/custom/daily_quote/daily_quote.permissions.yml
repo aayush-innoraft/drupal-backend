@@ -1,0 +1,3 @@
+administer daily_quote:
+  title: 'Administer daily quotes'
+  restrict access: true

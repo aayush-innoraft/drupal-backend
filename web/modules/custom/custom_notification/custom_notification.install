@@ -1,0 +1,53 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the Custom Notifications module.
+ */
+
+/**
+ * Implements hook_schema(). 
+ */
+function custom_notification_schema() {
+  $schema['custom_notifications'] = [
+    'description' => 'Stores custom notifications for users.',
+    'fields' => [
+      'id' => [
+        'description' => 'Primary Key: Unique notification ID.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'uid' => [
+        'description' => 'The user ID who receives the notification.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'message' => [
+        'description' => 'The notification message text.',
+        'type' => 'text',
+        'not null' => TRUE,
+      ],
+      'status' => [
+        'description' => '0 = unread, 1 = read.',
+        'type' => 'int',
+        'size' => 'tiny',
+        'default' => 0,
+        'not null' => TRUE,
+      ],
+      'created' => [
+        'description' => 'The Unix timestamp when the notification was created.',
+        'type' => 'int',
+        'not null' => TRUE,
+      ],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      'uid' => ['uid'],
+      'status' => ['status'],
+    ],
+  ];
+
+  return $schema;
+}

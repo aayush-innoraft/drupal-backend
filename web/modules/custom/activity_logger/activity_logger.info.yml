@@ -1,0 +1,5 @@
+name: Activity Logger
+type: module
+description: "Logs user activities within the site."
+core_version_requirement: ^10
+package: Custom

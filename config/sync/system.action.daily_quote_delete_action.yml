@@ -1,0 +1,13 @@
+uuid: d25a4ed8-f3e2-492f-bbe8-f18baef65f41
+langcode: en
+status: true
+dependencies:
+  module:
+    - daily_quote
+_core:
+  default_config_hash: OEAvVrVnMBdtzqfrPWDxhFdnl9-LdW5Yf5jA6lG6z7g
+id: daily_quote_delete_action
+label: 'Delete daily quotes'
+type: daily_quote
+plugin: 'entity:delete_action:daily_quote'
+configuration: {  }

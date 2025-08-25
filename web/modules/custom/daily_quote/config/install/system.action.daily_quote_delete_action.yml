@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - daily_quote
+id: daily_quote_delete_action
+label: 'Delete daily quotes'
+type: daily_quote
+plugin: entity:delete_action:daily_quote
+configuration: {  }

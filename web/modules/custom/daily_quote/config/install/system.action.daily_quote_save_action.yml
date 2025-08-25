@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - daily_quote
+id: daily_quote_save_action
+label: 'Save daily quotes'
+type: daily_quote
+plugin: entity:save_action:daily_quote
+configuration: {  }

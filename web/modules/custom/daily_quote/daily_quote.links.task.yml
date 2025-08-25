@@ -1,0 +1,22 @@
+entity.daily_quote.settings:
+  title: 'Settings'
+  route_name: entity.daily_quote.settings
+  base_route: entity.daily_quote.settings
+entity.daily_quote.view:
+  title: 'View'
+  route_name: entity.daily_quote.canonical
+  base_route: entity.daily_quote.canonical
+entity.daily_quote.edit_form:
+  title: 'Edit'
+  route_name: entity.daily_quote.edit_form
+  base_route: entity.daily_quote.canonical
+entity.daily_quote.delete_form:
+  title: 'Delete'
+  route_name: entity.daily_quote.delete_form
+  base_route: entity.daily_quote.canonical
+  weight: 10
+entity.daily_quote.collection:
+  title: 'Daily Quotes'
+  route_name: entity.daily_quote.collection
+  base_route: system.admin_content
+  weight: 10

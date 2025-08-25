@@ -1,0 +1,7 @@
+activity_logger.show:
+  path: '/activity-logger'
+  defaults:
+    _controller: '\Drupal\activity_logger\Controller\dashboardController::list_user_activities'
+    _title: 'User Activities'
+  requirements:
+    _permission: 'access content'

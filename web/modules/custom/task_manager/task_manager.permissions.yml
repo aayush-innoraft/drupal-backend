@@ -1,0 +1,10 @@
+add task:
+  title: 'Add Task'
+  description: 'Allow user to create tasks.'
+edit own task:
+  title: 'Edit Own Task'
+  description: 'Allow user to edit their own tasks.'
+delete own task:
+  title: 'Delete Own Task'
+  description: 'Allow user to delete their own tasks.'
+  

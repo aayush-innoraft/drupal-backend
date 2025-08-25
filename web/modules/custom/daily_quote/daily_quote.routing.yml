@@ -1,0 +1,7 @@
+entity.daily_quote.settings:
+  path: 'admin/structure/daily-quote'
+  defaults:
+    _form: '\Drupal\daily_quote\Form\DailyQuoteSettingsForm'
+    _title: 'Daily Quote'
+  requirements:
+    _permission: 'administer daily_quote'

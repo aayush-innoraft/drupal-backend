@@ -1,0 +1,7 @@
+name: Task Manager
+type: module
+description: 'A custom module for managing tasks.'
+core_version_requirement: ^10 
+package: Custom
+dependencies:
+  - drupal:user

@@ -1,0 +1,10 @@
+entity.daily_quote.edit_form:
+  route_name: entity.daily_quote.edit_form
+  group: daily_quote
+  title: 'Edit'
+
+entity.daily_quote.delete_form:
+  route_name: entity.daily_quote.delete_form
+  group: daily_quote
+  title: 'Delete'
+  weight: 10

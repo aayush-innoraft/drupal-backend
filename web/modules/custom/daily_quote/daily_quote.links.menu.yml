@@ -1,0 +1,11 @@
+entity.daily_quote.settings:
+  title: 'Daily Quote'
+  description: 'Configure a Daily Quote entity type.'
+  route_name:  entity.daily_quote.settings
+  parent: system.admin_structure
+
+entity.daily_quote.collection:
+  title: 'Daily Quotes'
+  description: 'List of daily quotes.'
+  route_name: entity.daily_quote.collection
+  parent: system.admin_content

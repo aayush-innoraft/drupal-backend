@@ -1,0 +1,12 @@
+<?php
+
+use Drupal\user\UserInterface;
+
+/**
+ * Implements hook_user_login().
+ */
+function custom_notification_user_login(UserInterface $account) {
+  /** @var \Drupal\custom_notification\Service\LoginNotificationService $notification_service */
+  $notification_service = \Drupal::service('custom_notification.login_notification');
+  $notification_service->handleLogin($account);
+}

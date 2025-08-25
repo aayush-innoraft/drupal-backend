@@ -1,0 +1,7 @@
+custom_notification.send_form:
+  path: '/admin/config/custom-notification/send'
+  defaults:
+    _form: '\Drupal\custom_notification\Form\NotificationSendForm'
+    _title: 'Send Notification'
+  requirements:
+    _permission: 'administer site configuration'

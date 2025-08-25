@@ -1,0 +1,13 @@
+uuid: 01f75e61-99b3-48e1-b299-37fd928773be
+langcode: en
+status: true
+dependencies:
+  module:
+    - daily_quote
+_core:
+  default_config_hash: c-c7oE3gn848BEBm0RLNJB2v_8aN9irjOou-hGIlx-Y
+id: daily_quote_save_action
+label: 'Save daily quotes'
+type: daily_quote
+plugin: 'entity:save_action:daily_quote'
+configuration: {  }

@@ -1,0 +1,3 @@
+administer custom notification:
+  title: 'Administer Custom Notification'
+  description: 'Allow admin to send notification to users'

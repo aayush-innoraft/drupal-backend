@@ -1,0 +1,23 @@
+task_manager.list:
+  path: "/task-manager"
+  defaults:
+    _controller: '\Drupal\task_manager\Controller\TaskManagerController::listTasks'
+    _title: "My Tasks"
+  requirements:
+    _permission: "access content"
+
+task_manager.add:
+  path: "/task-manager/add"
+  defaults:
+    _form: '\Drupal\task_manager\Form\TaskAddForm'
+    _title: "Add New Task"
+  requirements:
+    _permission: "add tasks"
+
+task_manager.delete:
+  path: "/tasks/{task}"
+  defaults:
+    _controller: '\Drupal\task_manager\Controller\TaskManagerController::deleteTask'
+    _title: "Delete Task"
+  requirements:
+    _permission: "administer nodes"

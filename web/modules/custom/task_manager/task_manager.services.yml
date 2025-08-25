@@ -1,0 +1,9 @@
+services:
+  task_manager.manager:
+    class: Drupal\task_manager\Service\TaskManagerService
+    arguments:
+      - '@database'
+      - '@current_user'
+      - '@cache.default'
+      - '@messenger'
+      - '@cache_tags.invalidator'

@@ -1,0 +1,5 @@
+daily_quote.add_form:
+  title: 'Add daily quote'
+  route_name: entity.daily_quote.add_form
+  appears_on:
+    - entity.daily_quote.collection

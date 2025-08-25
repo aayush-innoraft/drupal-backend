@@ -1,0 +1,9 @@
+<?php
+function task_manager_help($route_name, $route_match) {
+  if ($route_name === 'help.page.task_manager') {
+    /** @var \Drupal\task_manager\Service\TaskManagerService $service */
+    $service = \Drupal::service('task_manager.manager');
+    $service->addTask('First Test Task', 'Testing task manager service.');
+    return 'Check your database for the test task.';
+  }
+}

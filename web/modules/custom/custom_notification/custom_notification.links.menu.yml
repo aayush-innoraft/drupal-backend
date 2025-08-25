@@ -1,0 +1,13 @@
+custom_notification.section:
+  title: "Custom Notifications"
+  description: "Manage custom notifications."
+  route_name: system.admin_config
+  parent: system.admin_config
+  weight: 50
+
+custom_notification.send_form_link:
+  title: "Send Custom Notification"
+  description: "Send a custom notification to a user."
+  route_name: custom_notification.send_form
+  parent: custom_notification.section
+  weight: 0

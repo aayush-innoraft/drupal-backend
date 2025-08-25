@@ -1,0 +1,4 @@
+services:
+  custom_notification.login_notification:
+    class: Drupal\custom_notification\Service\LoginNotificationService
+    arguments: ['@database', '@messenger']

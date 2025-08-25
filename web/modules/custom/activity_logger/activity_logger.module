@@ -1,0 +1,39 @@
+<?php
+use Drupal\Core\Session\AccountProxyInterface;
+use \Drupal\user\UserInterface;
+use Drupal\node\NodeInterface;
+
+function activity_logger_user_login(UserInterface $account){
+    actitvity_logger_log_activity($account->id(),'user logged in');
+}
+function activity_logger_user_logout(UserInterface $account){
+    actitvity_logger_log_activity($account->id() , 'user logger out');
+}
+function activity_logger_node_insert(NodeInterface  $node){
+    $current_user = \Drupal::currentUser();
+    if ($current_user->isAuthenticated()) {
+    actitvity_logger_log_activity($current_user->id(), 'Created node: ' . $node->getTitle());
+  }
+}
+function activity_logger_node_delete(NodeInterface $node){
+    $currentUser = \Drupal::currentUser();
+    if ($currentUser->isAuthenticated()){
+        actitvity_logger_log_activity($currentUser->id(), 'node deleted' .$node->getTitle());
+    }
+}
+function activity_logger_node_update(NodeInterface $node){
+    $currentUser = \Drupal::currentUser();
+    if($currentUser->isAuthenticated()){
+        actitvity_logger_log_activity($currentUser->id() , 'node updated' .$node->getTitle());
+    }
+}
+function actitvity_logger_log_activity($uid , $activity){
+    $connection = \Drupal::database();
+    $connection->insert('user_activities')
+             ->fields([
+                'uid' => $uid,
+                'activity' => $activity,
+                'timestamp' => \Drupal::time()->getCurrentTime()
+             ])
+             ->execute();
+}
