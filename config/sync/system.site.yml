@@ -3,12 +3,12 @@ _core:
 langcode: en
 uuid: df242058-0ffb-43c9-ad4f-c447b12a078b
 name: 'Drush Site-Install'
-mail: admin@example.com
+mail: aayush.pathak@innoraft.com
 slogan: ''
 page:
   403: ''
   404: ''
-  front: /node
+  front: /node/3
 admin_compact_mode: false
 weight_select_max: 100
 default_langcode: en

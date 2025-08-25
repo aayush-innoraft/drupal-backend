@@ -1,0 +1,33 @@
+uuid: e16bcce5-7748-4929-9da8-1563e13a795f
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.user-activity
+  module:
+    - system
+    - user
+  theme:
+    - olivero
+id: olivero_user_activity
+theme: olivero
+region: secondary_menu
+weight: 0
+provider: null
+plugin: 'system_menu_block:user-activity'
+settings:
+  id: 'system_menu_block:user-activity'
+  label: user_activity
+  label_display: '0'
+  provider: system
+  level: 1
+  depth: 0
+  expand_all_items: false
+visibility:
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      administrator: administrator

@@ -1,0 +1,20 @@
+uuid: 68a4d91f-ca2b-4b11-bdc4-2cc2d26a9aa8
+langcode: en
+status: true
+dependencies:
+  module:
+    - daily_quote
+  theme:
+    - olivero
+id: olivero_dailyquoteblock
+theme: olivero
+region: sidebar
+weight: -7
+provider: null
+plugin: daily_quote_block
+settings:
+  id: daily_quote_block
+  label: 'Daily Quote Block'
+  label_display: visible
+  provider: daily_quote
+visibility: {  }

@@ -1,0 +1,8 @@
+uuid: f90ebd68-219a-47b3-a5f8-9bf3d81cc30c
+langcode: en
+status: true
+dependencies: {  }
+id: user-activity
+label: user_activity
+description: ''
+locked: false
