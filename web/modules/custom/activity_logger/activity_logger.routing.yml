@@ -5,3 +5,15 @@ activity_logger.show:
     _title: 'User Activities'
   requirements:
     _permission: 'access content'
+
+activity_logger.delete_activity:
+  path: '/activity-logger/delete/{id}'
+  defaults:
+    _controller: '\Drupal\activity_logger\Controller\dashboardController::delete_activity'
+    _title: 'Delete Activity'
+  requirements:
+    _permission: 'access administration pages'
+  options:
+    parameters:
+      id:
+        type: integer
