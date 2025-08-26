@@ -1,4 +1,5 @@
 services:
   office_weather.weather_api_client:
     class: Drupal\office_weather\WeatherApiClient
-    arguments: ['@http_client', '@config.factory', '@logger.channel.office_weather']
+    arguments:
+      ["@http_client", "@config.factory", "@logger.channel.office_weather"]

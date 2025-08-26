@@ -29,15 +29,6 @@ class WeatherBlock extends BlockBase implements ContainerFactoryPluginInterface 
 
   /**
    * Constructs a new WeatherBlock instance.
-   *
-   * @param array $configuration
-   *   A configuration array containing plugin configuration.
-   * @param string $plugin_id
-   *   The plugin ID for the block.
-   * @param mixed $plugin_definition
-   *   The plugin implementation definition.
-   * @param \GuzzleHttp\ClientInterface $http_client
-   *   The HTTP client service.
    */
   public function __construct(array $configuration, $plugin_id, $plugin_definition, ClientInterface $http_client) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
@@ -71,15 +62,20 @@ class WeatherBlock extends BlockBase implements ContainerFactoryPluginInterface 
 
       $location = 'Jaipur, IN';
       $response = $this->httpClient->get("https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/" . urlencode($location) . "?key=" . $apiKey);
-
       $data = json_decode($response->getBody()->getContents(), TRUE);
+
+      // Convert temperature from Fahrenheit to Celsius
+      $tempF = $data['currentConditions']['temp'] ?? null;
+      $tempC = $tempF !== null ? round(($tempF - 32) * 5 / 9, 2) : 'N/A';
 
       return [
         '#markup' => $this->t('Current temperature in @city: @temp °C', [
           '@city' => $location,
-          '@temp' => $data['currentConditions']['temp'] ?? 'N/A',
-          '#cache' => ['max-age' => 21600],
+          '@temp' => $tempC,
         ]),
+        '#cache' => [
+          'max-age' => 21600,
+        ],
       ];
 
     } catch (\Exception $e) {
@@ -90,5 +86,4 @@ class WeatherBlock extends BlockBase implements ContainerFactoryPluginInterface 
       ];
     }
   }
-
 }

@@ -16,6 +16,7 @@ class WeatherController extends ControllerBase
     /**
      * @var \GuzzleHttp\ClientInterface
      */
+
     protected $httpClient;
 
     /**
@@ -41,8 +42,9 @@ class WeatherController extends ControllerBase
      */
     public function forcasting()
     {
+
         try {
-            // Replace YOUR_API_KEY and LOCATION with real values.
+
             $apiKey = 'LZ6NZ6X2EVXDKBXNHSU9TSLH7';
             $location = 'Jaipur, IN';
 
@@ -52,7 +54,8 @@ class WeatherController extends ControllerBase
 
             // Extract weather details safely
             $city = $location;
-            $temperature = $data['currentConditions']['temp'] ?? 'N/A';
+            $temperatureF = $data['currentConditions']['temp'] ?? 'N/A';
+            $temperature = is_numeric($temperatureF) ? round(($temperatureF - 32) * 5 / 9, 2) : 'N/A';
             $humidity = $data['currentConditions']['humidity'] ?? 'N/A';
             $windSpeed = $data['currentConditions']['windspeed'] ?? 'N/A';
             $conditions = $data['currentConditions']['conditions'] ?? 'N/A';
@@ -65,8 +68,8 @@ class WeatherController extends ControllerBase
                 'table' => [
                     '#type' => 'table',
                     '#header' => [
-                        $this->t(string: 'City'),
-                        $this->t('Temperature (°C)'),
+                        $this->t('City'),
+                        $this->t('Temperature (°C)'), // Changed header to °C
                         $this->t('Humidity (%)'),
                         $this->t('Wind Speed (km/h)'),
                         $this->t('Conditions'),

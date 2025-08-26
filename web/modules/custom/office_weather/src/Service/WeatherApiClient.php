@@ -10,7 +10,8 @@ use GuzzleHttp\Exception\RequestException;
 /**
  * Service to fetch weather data from Visual Crossing API.
  */
-class WeatherApiClient {
+class WeatherApiClient
+{
 
   /**
    * @var \GuzzleHttp\ClientInterface
@@ -63,7 +64,8 @@ class WeatherApiClient {
    * @return array|null
    *   An array with 'temp' and 'conditions' or NULL on failure.
    */
-  public function fetchByLocation(string $location): ?array {
+  public function fetchByLocation(string $location): ?array
+  {
     if (!$this->apiKey) {
       $this->logger->error('Visual Crossing API key is not configured in settings.php.');
       return NULL;
@@ -105,15 +107,12 @@ class WeatherApiClient {
       $this->logger->warning('Unexpected API response structure for location: @location', [
         '@location' => $location,
       ]);
-    }
-    catch (RequestException $e) {
+    } catch (RequestException $e) {
       $this->logger->error('Failed to fetch weather for @location: @message', [
         '@location' => $location,
         '@message' => $e->getMessage(),
       ]);
     }
-
     return NULL;
   }
-
 }
