@@ -36,25 +36,62 @@ class WeatherController extends ControllerBase {
   /**
    * Simple API test to verify weather API connectivity.
    */
-  public function forcasting() {
-    try {
-      // Replace YOUR_API_KEY and LOCATION with real values.
-      $apiKey = 'LZ6NZ6X2EVXDKBXNHSU9TSLH7';
-      $location = 'jaipur , IN';
-      $response = $this->httpClient->get("https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/" . urlencode($location) . "?key=" . $apiKey);
+public function forcasting() {
+  try {
+    // Replace YOUR_API_KEY and LOCATION with real values.
+    $apiKey = 'LZ6NZ6X2EVXDKBXNHSU9TSLH7';
+    $location = 'Jaipur, IN';
 
-      $data = json_decode($response->getBody()->getContents(), TRUE);
+    // Make API request
+    $response = $this->httpClient->get("https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/" . urlencode($location) . "?key=" . $apiKey);
+    $data = json_decode($response->getBody()->getContents(), TRUE);
 
-      return [
-        '#markup' => $this->t('API Connected! Current temperature in @city: @temp °C', [
-          '@city' => $location,
-          '@temp' => $data['currentConditions']['temp'] ?? 'N/A',
-        ]),
-      ];
+    // Extract weather details safely
+    $city = $location;
+    $temperature = $data['currentConditions']['temp'] ?? 'N/A';
+    $humidity = $data['currentConditions']['humidity'] ?? 'N/A';
+    $windSpeed = $data['currentConditions']['windspeed'] ?? 'N/A';
+    $conditions = $data['currentConditions']['conditions'] ?? 'N/A';
 
-    } catch (\Exception $e) {
-      return new Response('Error: ' . $e->getMessage(), 500);
-    }
+    // Return data as a Drupal renderable table
+    return [
+      'title' => [
+        '#markup' => '<h2>' . $this->t('Current Weather Forecast') . '</h2>',
+      ],
+      'table' => [
+        '#type' => 'table',
+        '#header' => [
+          $this->t('City'),
+          $this->t('Temperature (°C)'),
+          $this->t('Humidity (%)'),
+          $this->t('Wind Speed (km/h)'),
+          $this->t('Conditions'),
+        ],
+        '#rows' => [
+          [
+            ['data' => $city],
+            ['data' => $temperature],
+            ['data' => $humidity],
+            ['data' => $windSpeed],
+            ['data' => $conditions],
+          ],
+        ],
+        '#attributes' => [
+          'border' => 1,
+          'cellpadding' => 5,
+          'cellspacing' => 0,
+        ],
+        '#empty' => $this->t('No weather data available.'),
+      ],
+    ];
+
+  } catch (\Exception $e) {
+    // Handle and display any errors
+    return [
+      '#markup' => $this->t('<strong>Error:</strong> @message', ['@message' => $e->getMessage()]),
+    ];
   }
+}
+
 
 }
