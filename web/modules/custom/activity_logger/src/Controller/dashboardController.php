@@ -9,7 +9,7 @@ use Drupal\Core\Database\Database;
 
 class DashboardController extends ControllerBase
 {
-
+    
     /**
      * List all user activities with delete links.
      */
@@ -52,7 +52,7 @@ class DashboardController extends ControllerBase
         } else {
             return [
                 '#markup' => 'Access Denied. You do not have permission to view this page.',
-                 '#cache' => ['max-age' => 0],
+                '#cache' => ['max-age' => 0],
             ];
         }
     }

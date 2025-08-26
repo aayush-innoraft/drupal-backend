@@ -1,0 +1,5 @@
+name: Office Weather
+type: module
+core_version_requirement: ^10
+description: 'Provides weather information for the office location.'
+package: Custom

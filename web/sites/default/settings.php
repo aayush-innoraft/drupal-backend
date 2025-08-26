@@ -906,3 +906,6 @@ $databases['default']['default'] = array (
 );
 $settings['config_sync_directory'] = '../config/sync';
 $config['system.logging']['error_level'] = 'verbose';
+$settings['office_weather_api_key'] = 'LZ6NZ6X2EVXDKBXNHSU9TSLH7';
+
+

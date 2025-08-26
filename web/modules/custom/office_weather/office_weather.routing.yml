@@ -1,0 +1,7 @@
+office_weather.test:
+  path: '/office-weather'
+  defaults:
+    _controller: '\Drupal\office_weather\Controller\WeatherController::forcasting'
+    _title: 'Weather API Data'
+  requirements:
+    _permission: 'access content'
