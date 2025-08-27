@@ -8,9 +8,9 @@ use Drupal\Core\Url;
 use Drupal\Core\Database\Database;
 
 /**
- *
+ *class dashboardController.
  */
-class DashboardController extends ControllerBase {
+class dashboardController extends ControllerBase {
 
   /**
    * List all user activities with delete links.

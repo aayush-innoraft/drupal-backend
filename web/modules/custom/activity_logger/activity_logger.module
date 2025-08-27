@@ -8,21 +8,21 @@ use Drupal\user\UserInterface;
 use Drupal\node\NodeInterface;
 
 /**
- *
+ *activity_logger_user_login
  */
 function activity_logger_user_login(UserInterface $account) {
   actitvity_logger_log_activity($account->id(), 'user logged in');
 }
 
 /**
- *
+ *activity_logger_user_logout
  */
 function activity_logger_user_logout(UserInterface $account) {
   actitvity_logger_log_activity($account->id(), 'user logger out');
 }
 
 /**
- *
+ *activity_logger_node_insert
  */
 function activity_logger_node_insert(NodeInterface $node) {
   $current_user = \Drupal::currentUser();
@@ -32,7 +32,7 @@ function activity_logger_node_insert(NodeInterface $node) {
 }
 
 /**
- *
+ *activity_logger_node_delete
  */
 function activity_logger_node_delete(NodeInterface $node) {
   $currentUser = \Drupal::currentUser();
@@ -42,7 +42,7 @@ function activity_logger_node_delete(NodeInterface $node) {
 }
 
 /**
- *
+ *activity_logger_node_update
  */
 function activity_logger_node_update(NodeInterface $node) {
   $currentUser = \Drupal::currentUser();
@@ -52,7 +52,7 @@ function activity_logger_node_update(NodeInterface $node) {
 }
 
 /**
- *
+ *actitvity_logger_log_activity
  */
 function actitvity_logger_log_activity($uid, $activity) {
   $connection = \Drupal::database();
