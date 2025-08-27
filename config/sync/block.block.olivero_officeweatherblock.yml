@@ -1,0 +1,20 @@
+uuid: ef08c359-daaf-4dcf-aa85-5fd9fd26992b
+langcode: en
+status: true
+dependencies:
+  module:
+    - office_weather
+  theme:
+    - olivero
+id: olivero_officeweatherblock
+theme: olivero
+region: sidebar
+weight: -8
+provider: null
+plugin: office_weather_block
+settings:
+  id: office_weather_block
+  label: 'Office Weather Block'
+  label_display: visible
+  provider: office_weather
+visibility: {  }

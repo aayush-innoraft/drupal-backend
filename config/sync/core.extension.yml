@@ -13,6 +13,7 @@ module:
   config: 0
   contact: 0
   contextual: 0
+  cronning: 0
   custom_notification: 0
   daily_quote: 0
   datetime: 0
@@ -27,10 +28,12 @@ module:
   history: 0
   image: 0
   link: 0
+  login_destination: 0
   menu_link_content: 0
   menu_ui: 0
   mysql: 0
   node: 0
+  office_weather: 0
   options: 0
   page_cache: 0
   path: 0

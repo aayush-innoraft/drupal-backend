@@ -1,0 +1,19 @@
+uuid: 36b1222b-1d17-4e96-8a5b-779b6579d698
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_conditions
+    - node.type.office
+id: node.office.field_conditions
+field_name: field_conditions
+entity_type: node
+bundle: office
+label: Conditions
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

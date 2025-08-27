@@ -1,0 +1,28 @@
+uuid: 72bd081d-0d7f-4886-8891-5051e3c93769
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.office.field_conditions
+    - field.field.node.office.field_last_update
+    - field.field.node.office.field_location
+    - field.field.node.office.field_temprature
+    - node.type.office
+  module:
+    - user
+id: node.office.teaser
+targetEntityType: node
+bundle: office
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_conditions: true
+  field_last_update: true
+  field_location: true
+  field_temprature: true

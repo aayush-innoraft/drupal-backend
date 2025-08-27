@@ -1,0 +1,23 @@
+uuid: ab7583f7-2f20-4ed6-8658-4a88b4a06aee
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_temprature
+    - node.type.office
+id: node.office.field_temprature
+field_name: field_temprature
+entity_type: node
+bundle: office
+label: Temprature
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: '°C / °F'
+field_type: float

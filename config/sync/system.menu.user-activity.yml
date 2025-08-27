@@ -3,6 +3,6 @@ langcode: en
 status: true
 dependencies: {  }
 id: user-activity
-label: user_activity
+label: see_user_activity
 description: ''
 locked: false

@@ -1,0 +1,21 @@
+uuid: 3aae6e34-bd7e-4a8f-9467-d5d53530fd32
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_last_update
+    - node.type.office
+  module:
+    - datetime
+id: node.office.field_last_update
+field_name: field_last_update
+entity_type: node
+bundle: office
+label: 'Last Update'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime
