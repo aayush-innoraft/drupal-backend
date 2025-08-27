@@ -1,0 +1,5 @@
+name: Trying Cron
+type: module
+description: 'A module to test cron in drupal'
+core_version_requirement: ^10
+package: custom

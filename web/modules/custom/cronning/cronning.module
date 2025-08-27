@@ -1,0 +1,55 @@
+<?php
+
+/**
+ * @file
+ */
+
+use Drupal\node\Entity\Node;
+
+/**
+ * Implements hook_cron().
+ */
+function cronning_cron() {
+  // Load user by username 'user1'.
+  $users = \Drupal::entityTypeManager()
+    ->getStorage('user')
+    ->loadByProperties(['name' => 'user1']);
+  $user = reset($users);
+
+  if ($user) {
+    $uid = $user->id();
+    \Drupal::logger('delete_user_pages')->notice('Loaded user ID: @uid', ['@uid' => $uid]);
+
+    // Query for basic_page nodes authored by this user, limit to one.
+    $nids = \Drupal::entityQuery('node')
+      ->accessCheck(FALSE)
+      ->condition('type', 'page')
+      ->condition('uid', $uid)
+    // Limit to one node only.
+      ->range(0, 1)
+    // Optional: delete the oldest first.
+      ->sort('created', 'ASC')
+      ->execute();
+
+    if (!empty($nids)) {
+      $nid = reset($nids);
+      $node = Node::load($nid);
+
+      if ($node) {
+        \Drupal::logger('delete_user_pages')->notice('Deleting node: @title (NID: @nid)', [
+          '@title' => $node->getTitle(),
+          '@nid' => $node->id(),
+        ]);
+
+        $node->delete();
+        \Drupal::logger('delete_user_pages')->notice('Deleted one basic page created by user1.');
+      }
+    }
+    else {
+      \Drupal::logger('delete_user_pages')->notice('No basic pages found for user1.');
+    }
+  }
+  else {
+    \Drupal::logger('delete_user_pages')->warning('User user1 not found.');
+  }
+}
