@@ -11,7 +11,6 @@ use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\daily_quote\DailyQuoteInterface;
 use Drupal\user\EntityOwnerTrait;
-use Drupal\Core\StringTranslation\StringTranslationTrait;
 
 /**
  * Defines the daily quote entity class.

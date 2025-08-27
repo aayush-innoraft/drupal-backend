@@ -52,7 +52,7 @@ class WeatherBlock extends BlockBase implements ContainerFactoryPluginInterface 
    */
   public function build() {
     try {
-      // Get API key from settings.php
+      // Get API key from settings.php.
       $apiKey = \Drupal::service('settings')->get('office_weather_api_key');
       if (!$apiKey) {
         return [
@@ -64,9 +64,9 @@ class WeatherBlock extends BlockBase implements ContainerFactoryPluginInterface 
       $response = $this->httpClient->get("https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/" . urlencode($location) . "?key=" . $apiKey);
       $data = json_decode($response->getBody()->getContents(), TRUE);
 
-      // Convert temperature from Fahrenheit to Celsius
-      $tempF = $data['currentConditions']['temp'] ?? null;
-      $tempC = $tempF !== null ? round(($tempF - 32) * 5 / 9, 2) : 'N/A';
+      // Convert temperature from Fahrenheit to Celsius.
+      $tempF = $data['currentConditions']['temp'] ?? NULL;
+      $tempC = $tempF !== NULL ? round(($tempF - 32) * 5 / 9, 2) : 'N/A';
 
       return [
         '#markup' => $this->t('Current temperature in @city: @temp °C', [
@@ -78,7 +78,8 @@ class WeatherBlock extends BlockBase implements ContainerFactoryPluginInterface 
         ],
       ];
 
-    } catch (\Exception $e) {
+    }
+    catch (\Exception $e) {
       return [
         '#markup' => $this->t('Error fetching weather: @message', [
           '@message' => $e->getMessage(),
@@ -86,4 +87,5 @@ class WeatherBlock extends BlockBase implements ContainerFactoryPluginInterface 
       ];
     }
   }
+
 }

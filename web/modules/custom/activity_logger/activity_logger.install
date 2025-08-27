@@ -1,4 +1,12 @@
 <?php
+
+/**
+ * @file
+ */
+
+/**
+ *
+ */
 function activity_logger_schema() {
   $schema['user_activities'] = [
     'description' => 'Stores user activity logs.',

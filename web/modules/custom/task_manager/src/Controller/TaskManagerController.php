@@ -2,18 +2,20 @@
 
 namespace Drupal\task_manager\Controller;
 
+use Drupal\node\Entity\Node;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\task_manager\Service\TaskManagerService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Link;
 use Drupal\Core\Url;
-use Drupal\Component\Render\Markup; // <-- ADD THIS LINE
+
+// <-- ADD THIS LINE
+
 
 /**
  * Controller for displaying task lists.
  */
-class TaskManagerController extends ControllerBase
-{
+class TaskManagerController extends ControllerBase {
 
   /**
    * The task manager service.
@@ -25,16 +27,14 @@ class TaskManagerController extends ControllerBase
   /**
    * Constructor.
    */
-  public function __construct(TaskManagerService $task_manager)
-  {
+  public function __construct(TaskManagerService $task_manager) {
     $this->taskManager = $task_manager;
   }
 
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container)
-  {
+  public static function create(ContainerInterface $container) {
     return new static(
       $container->get('task_manager.manager')
     );
@@ -46,8 +46,7 @@ class TaskManagerController extends ControllerBase
    * @return array
    *   Render array of the task listing.
    */
-  public function listTasks(): array
-  {
+  public function listTasks(): array {
     $tasks = $this->taskManager->getTasks();
     $current_user = $this->currentUser();
 
@@ -103,17 +102,18 @@ class TaskManagerController extends ControllerBase
   /**
    * Delete a task.
    */
-  public function deleteTask($task)
-  {
-    $node = \Drupal\node\Entity\Node::load($task);
+  public function deleteTask($task) {
+    $node = Node::load($task);
 
     if ($node && $node->bundle() === 'task') {
       $node->delete();
       $this->messenger()->addMessage($this->t('Task @title has been deleted.', ['@title' => $node->getTitle()]));
-    } else {
+    }
+    else {
       $this->messenger()->addError($this->t('Task not found or invalid.'));
     }
 
     return $this->redirect('task_manager.list');
   }
+
 }

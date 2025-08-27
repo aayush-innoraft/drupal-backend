@@ -10,8 +10,7 @@ use GuzzleHttp\Exception\RequestException;
 /**
  * Service to fetch weather data from Visual Crossing API.
  */
-class WeatherApiClient
-{
+class WeatherApiClient {
 
   /**
    * @var \GuzzleHttp\ClientInterface
@@ -46,7 +45,7 @@ class WeatherApiClient
   public function __construct(
     ClientInterface $http_client,
     ConfigFactoryInterface $config_factory,
-    LoggerChannelInterface $logger
+    LoggerChannelInterface $logger,
   ) {
     $this->httpClient = $http_client;
     $this->configFactory = $config_factory;
@@ -64,8 +63,7 @@ class WeatherApiClient
    * @return array|null
    *   An array with 'temp' and 'conditions' or NULL on failure.
    */
-  public function fetchByLocation(string $location): ?array
-  {
+  public function fetchByLocation(string $location): ?array {
     if (!$this->apiKey) {
       $this->logger->error('Visual Crossing API key is not configured in settings.php.');
       return NULL;
@@ -78,10 +76,12 @@ class WeatherApiClient
     $options = [
       'query' => [
         'key' => $this->apiKey,
-        'unitGroup' => 'metric',   // Change to 'us' for Fahrenheit
+    // Change to 'us' for Fahrenheit.
+        'unitGroup' => 'metric',
         'contentType' => 'json',
       ],
-      'timeout' => 10, // Optional: set timeout to avoid hanging requests.
+      // Optional: set timeout to avoid hanging requests.
+      'timeout' => 10,
     ];
 
     try {
@@ -93,8 +93,7 @@ class WeatherApiClient
       // $this->logger->debug('Weather API response for @location: @data', [
       //   '@location' => $location,
       //   '@data' => print_r($data, TRUE),
-      // ]);
-
+      // ]);.
       // Parse and return current weather conditions.
       if (!empty($data['currentConditions']['temp']) && !empty($data['currentConditions']['conditions'])) {
         return [
@@ -107,7 +106,8 @@ class WeatherApiClient
       $this->logger->warning('Unexpected API response structure for location: @location', [
         '@location' => $location,
       ]);
-    } catch (RequestException $e) {
+    }
+    catch (RequestException $e) {
       $this->logger->error('Failed to fetch weather for @location: @message', [
         '@location' => $location,
         '@message' => $e->getMessage(),
@@ -115,4 +115,5 @@ class WeatherApiClient
     }
     return NULL;
   }
+
 }

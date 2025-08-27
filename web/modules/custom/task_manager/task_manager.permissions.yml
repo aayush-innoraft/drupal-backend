@@ -7,4 +7,3 @@ edit own task:
 delete own task:
   title: 'Delete Own Task'
   description: 'Allow user to delete their own tasks.'
-  

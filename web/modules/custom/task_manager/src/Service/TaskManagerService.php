@@ -6,7 +6,6 @@ use Drupal\Core\Database\Connection;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Cache\CacheTagsInvalidatorInterface;
-use Drupal\Core\Cache\Cache;
 use Drupal\Core\Messenger\MessengerInterface;
 
 /**
@@ -57,7 +56,7 @@ class TaskManagerService {
     AccountInterface $current_user,
     CacheBackendInterface $cache,
     MessengerInterface $messenger,
-    CacheTagsInvalidatorInterface $cacheInvalidator
+    CacheTagsInvalidatorInterface $cacheInvalidator,
   ) {
     $this->database = $database;
     $this->currentUser = $current_user;
@@ -72,27 +71,26 @@ class TaskManagerService {
    * @return array
    *   An array of task objects.
    */
-public function getTasks(): array {
-  $cid = 'task_manager:tasks:' . $this->currentUser->id();
+  public function getTasks(): array {
+    $cid = 'task_manager:tasks:' . $this->currentUser->id();
 
-  // Return from cache if available.
-  if ($cache = $this->cache->get($cid)) {
-    return $cache->data;
+    // Return from cache if available.
+    if ($cache = $this->cache->get($cid)) {
+      return $cache->data;
+    }
+
+    // Fetch from the database.
+    $query = $this->database->select('task_manager_tasks', 't')
+      ->fields('t', ['id', 'title', 'description', 'status', 'created'])
+      ->condition('uid', $this->currentUser->id())
+      ->orderBy('created', 'DESC');
+    $tasks = $query->execute()->fetchAll();
+
+    // Cache for 1 hour with the tag for invalidation.
+    $this->cache->set($cid, $tasks, time() + 3600, ['task_manager:tasks']);
+
+    return $tasks;
   }
-
-  // Fetch from the database.
-  $query = $this->database->select('task_manager_tasks', 't')
-    ->fields('t', ['id', 'title', 'description', 'status', 'created'])
-    ->condition('uid', $this->currentUser->id())
-    ->orderBy('created', 'DESC');
-  $tasks = $query->execute()->fetchAll();
-
-  // Cache for 1 hour with the tag for invalidation.
-  $this->cache->set($cid, $tasks, time() + 3600, ['task_manager:tasks']);
-
-  return $tasks;
-}
-
 
   /**
    * Add a new task.

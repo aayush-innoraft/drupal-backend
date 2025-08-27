@@ -4,7 +4,6 @@ namespace Drupal\daily_quote\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Block\BlockPluginInterface;
-use Drupal\Core\Entity\ContentEntityInterface;
 
 /**
  * Provides a Daily Quotes block.
@@ -15,14 +14,12 @@ use Drupal\Core\Entity\ContentEntityInterface;
  *   category = @Translation("Custom")
  * )
  */
-class DailyQuoteBlock extends BlockBase implements BlockPluginInterface
-{
+class DailyQuoteBlock extends BlockBase implements BlockPluginInterface {
 
   /**
    * {@inheritdoc}
    */
-  public function build()
-  {
+  public function build() {
     // Load all quotes from the custom entity 'daily_quote'.
     $quotes = \Drupal::entityTypeManager()
       ->getStorage('daily_quote')
@@ -34,7 +31,8 @@ class DailyQuoteBlock extends BlockBase implements BlockPluginInterface
         /** @var \Drupal\Core\Entity\ContentEntityInterface $quote */
         if ($quote->hasField('field_quote') && !$quote->get('field_quote')->isEmpty()) {
           $quote_texts[] = $quote->get('field_quote')->value;
-        } elseif (method_exists($quote, 'label')) {
+        }
+        elseif (method_exists($quote, 'label')) {
           $quote_texts[] = $quote->label();
         }
       }
@@ -73,4 +71,5 @@ class DailyQuoteBlock extends BlockBase implements BlockPluginInterface
       ],
     ];
   }
+
 }
