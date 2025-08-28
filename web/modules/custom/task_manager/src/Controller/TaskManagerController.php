@@ -2,18 +2,14 @@
 
 namespace Drupal\task_manager\Controller;
 
-use Drupal\node\Entity\Node;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\task_manager\Service\TaskManagerService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Link;
 use Drupal\Core\Url;
 
-// <-- ADD THIS LINE
-
-
 /**
- * Controller for displaying task lists.
+ * Controller for displaying and managing tasks.
  */
 class TaskManagerController extends ControllerBase {
 
@@ -48,12 +44,14 @@ class TaskManagerController extends ControllerBase {
    */
   public function listTasks(): array {
     $tasks = $this->taskManager->getTasks();
-    $current_user = $this->currentUser();
 
     if (empty($tasks)) {
       return [
         '#markup' => $this->t('No tasks found. @link', [
-          '@link' => Link::fromTextAndUrl('Add a task', Url::fromRoute('task_manager.add'))->toString(),
+          '@link' => Link::fromTextAndUrl(
+            $this->t('Add a task'),
+            Url::fromRoute('task_manager.add')
+          )->toString(),
         ]),
       ];
     }
@@ -68,25 +66,16 @@ class TaskManagerController extends ControllerBase {
 
     $rows = [];
     foreach ($tasks as $task) {
-      $actions = [];
-
-      // Add delete link only for admins.
-      if ($current_user->hasPermission('administer nodes')) {
-        $actions[] = Link::fromTextAndUrl(
-          $this->t('Delete'),
-          Url::fromRoute('task_manager.delete', ['task' => $task->id])
-        )->toString();
-      }
       $rows[] = [
         $task->title,
         $task->description ?: $this->t('No description'),
         $task->status ? $this->t('Completed') : $this->t('Pending'),
-        date('Y-m-d H:i', $task->created),
+        date('Y-m-d H:i', strtotime($task->created)),
         [
           'data' => Link::fromTextAndUrl(
             $this->t('Delete'),
-            Url::fromRoute('task_manager.delete', ['task' => $task->id])
-          )->toRenderable(),
+            Url::fromRoute('task_manager.delete', ['task_id' => $task->id])
+          )->toString(),
         ],
       ];
     }
@@ -96,18 +85,25 @@ class TaskManagerController extends ControllerBase {
       '#header' => $header,
       '#rows' => $rows,
       '#empty' => $this->t('No tasks found.'),
+      '#cache' => ['max-age' => 0],
     ];
   }
 
   /**
-   * Delete a task.
+   * Delete a task by ID.
    */
-  public function deleteTask($task) {
-    $node = Node::load($task);
+  public function deleteTask($task_id) {
+    $connection = \Drupal::database();
 
-    if ($node && $node->bundle() === 'task') {
-      $node->delete();
-      $this->messenger()->addMessage($this->t('Task @title has been deleted.', ['@title' => $node->getTitle()]));
+    $deleted = $connection->delete('task_manager_tasks')
+      ->condition('id', $task_id)
+      ->execute();
+
+    if ($deleted) {
+      $this->messenger()->addMessage($this->t('Task with ID @id has been deleted.', ['@id' => $task_id]));
+      return [
+           '#cache' => ['max-age' => 0],
+      ];
     }
     else {
       $this->messenger()->addError($this->t('Task not found or invalid.'));

@@ -1,0 +1,34 @@
+<?php
+/**
+ * Recreate the daily_quote base table if missing.
+ */
+function daily_quote_update_8001() {
+  $schema = \Drupal::database()->schema();
+
+  if (!$schema->tableExists('daily_quote')) {
+    $schema->createTable('daily_quote', [
+      'fields' => [
+        'id' => [
+          'type' => 'serial',
+          'not null' => TRUE,
+        ],
+        'uuid' => [
+          'type' => 'varchar',
+          'length' => 128,
+          'not null' => TRUE,
+        ],
+        'langcode' => [
+          'type' => 'varchar',
+          'length' => 32,
+          'not null' => TRUE,
+        ],
+        'name' => [
+          'type' => 'varchar',
+          'length' => 255,
+          'not null' => FALSE,
+        ],
+      ],
+      'primary key' => ['id'],
+    ]);
+  }
+}

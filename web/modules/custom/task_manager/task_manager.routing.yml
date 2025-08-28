@@ -15,7 +15,7 @@ task_manager.add:
     _permission: "add tasks"
 
 task_manager.delete:
-  path: "/tasks/{task}"
+  path: "/task-manager/delete/{task_id}"
   defaults:
     _controller: '\Drupal\task_manager\Controller\TaskManagerController::deleteTask'
     _title: "Delete Task"

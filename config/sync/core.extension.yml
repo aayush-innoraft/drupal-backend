@@ -15,7 +15,6 @@ module:
   contextual: 0
   cronning: 0
   custom_notification: 0
-  daily_quote: 0
   datetime: 0
   dblog: 0
   dynamic_page_cache: 0
