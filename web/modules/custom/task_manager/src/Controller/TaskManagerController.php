@@ -7,6 +7,8 @@ use Drupal\task_manager\Service\TaskManagerService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Link;
 use Drupal\Core\Url;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Drupal\node\Entity\Node;
 
 /**
  * Controller for displaying and managing tasks.
@@ -38,9 +40,6 @@ class TaskManagerController extends ControllerBase {
 
   /**
    * List tasks for the current user.
-   *
-   * @return array
-   *   Render array of the task listing.
    */
   public function listTasks(): array {
     $tasks = $this->taskManager->getTasks();
@@ -55,13 +54,14 @@ class TaskManagerController extends ControllerBase {
         ]),
       ];
     }
-
+    
     $header = [
       $this->t('Title'),
       $this->t('Description'),
       $this->t('Status'),
       $this->t('Created'),
       $this->t('Actions'),
+      $this->t('Mark as Done'),
     ];
 
     $rows = [];
@@ -69,13 +69,30 @@ class TaskManagerController extends ControllerBase {
       $rows[] = [
         $task->title,
         $task->description ?: $this->t('No description'),
-        $task->status ? $this->t('Completed') : $this->t('Pending'),
-        date('Y-m-d H:i', strtotime($task->created)),
         [
-          'data' => Link::fromTextAndUrl(
-            $this->t('Delete'),
-            Url::fromRoute('task_manager.delete', ['task_id' => $task->id])
-          )->toString(),
+          'data' => [
+            '#type' => 'html_tag',
+            '#tag' => 'span',
+            '#value' => $task->status ? $this->t('Completed') : $this->t('Pending'),
+            '#attributes' => ['id' => 'status-text-' . $task->id],
+          ],
+        ],
+        date('Y-m-d H:i', strtotime($task->created)),
+        Link::fromTextAndUrl(
+          $this->t('Delete'),
+          Url::fromRoute('task_manager.delete', ['task_id' => $task->id])
+        )->toString(),
+        [
+          'data' => [
+            '#type' => 'checkbox',
+            '#default_value' => (int) $task->status,
+            '#ajax' => [
+              'callback' => '::updateStatusAjax',
+              'event' => 'change',
+              'progress' => ['type' => 'throbber'],
+              'url' => Url::fromRoute('task_manager.update_status', ['task_id' => $task->id]),
+            ],
+          ],
         ],
       ];
     }
@@ -90,20 +107,39 @@ class TaskManagerController extends ControllerBase {
   }
 
   /**
+   * AJAX callback to update task status.
+   */
+  public function updateTaskStatus($task_id): JsonResponse {
+    $node = Node::load($task_id);
+
+    if ($node && $node->bundle() === 'task') {
+      $current_status = $node->get('field_status')->value;
+      $new_status = $current_status ? 0 : 1;
+
+      $node->set('field_status', $new_status);
+      $node->save();
+
+      return new JsonResponse([
+        'success' => TRUE,
+        'new_status' => $new_status ? 'Completed' : 'Pending',
+        'task_id' => $task_id,
+      ]);
+    }
+
+    return new JsonResponse(['success' => FALSE, 'message' => 'Invalid task'], 400);
+  }
+
+  /**
    * Delete a task by ID.
    */
   public function deleteTask($task_id) {
     $connection = \Drupal::database();
-
     $deleted = $connection->delete('task_manager_tasks')
       ->condition('id', $task_id)
       ->execute();
 
     if ($deleted) {
       $this->messenger()->addMessage($this->t('Task with ID @id has been deleted.', ['@id' => $task_id]));
-      return [
-           '#cache' => ['max-age' => 0],
-      ];
     }
     else {
       $this->messenger()->addError($this->t('Task not found or invalid.'));

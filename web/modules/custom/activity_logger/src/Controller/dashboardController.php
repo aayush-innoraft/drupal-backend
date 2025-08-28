@@ -8,7 +8,7 @@ use Drupal\Core\Url;
 use Drupal\Core\Database\Database;
 
 /**
- *class dashboardController.
+ * Class dashboardController.
  */
 class dashboardController extends ControllerBase {
 

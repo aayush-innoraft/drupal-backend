@@ -21,3 +21,12 @@ task_manager.delete:
     _title: "Delete Task"
   requirements:
     _permission: "administer nodes"
+
+task_manager.update_status:
+  path: '/task/update/{task_id}'
+  defaults:
+    _controller: '\Drupal\task_manager\Controller\TaskManagerController::updateTaskStatus'
+  requirements:
+    _permission: 'access content'
+  options:
+    _format: 'json'
